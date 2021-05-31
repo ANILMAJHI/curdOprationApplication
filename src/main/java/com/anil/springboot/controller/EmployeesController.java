@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.anil.springboot.model.Address;
 import com.anil.springboot.model.Employees;
+import com.anil.springboot.service.AddressService;
 import com.anil.springboot.service.EmployeeService;
 
 @RestController
@@ -18,15 +20,19 @@ public class EmployeesController {
 
 	@Autowired
 	EmployeeService serviceRepository;
+	@Autowired
+	private AddressService addressService;
 
 	@GetMapping("/msg")
 	public String getMessage() {
 		return "hello messgae";
 	}
 
-	@GetMapping("/empl")
-	public List<Employees> getAllEmp() {
-		return serviceRepository.findAll();
+	@GetMapping("/getAlladdress")
+	public List<Address> getAllEmp() {
+
+		List<Address> address = addressService.findAll();
+		return address;
 	}
 
 	@PostMapping("/post")
@@ -34,7 +40,15 @@ public class EmployeesController {
 
 		return (Employees) serviceRepository.save(employees);
 
-		//return (Employees) serviceRepository.findAll();
+		// return (Employees) serviceRepository.findAll();
+	}
+
+	@PostMapping("/postaddress")
+	public Address addAddress(@RequestBody Address address) {
+
+		return (Address) addressService.save(address);
+
+		// return (Employees) serviceRepository.findAll();
 	}
 
 }
